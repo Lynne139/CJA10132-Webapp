@@ -1,0 +1,41 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%  int rowsPerPage = 3;  //每頁的筆數    
+    int rowNumber=0;      //總筆數
+    int pageNumber=0;     //總頁數      
+    int whichPage=1;      //第幾頁
+    int pageIndexArray[]=null; //拿來塞 這一頁是從第幾筆到第幾筆 的int資料
+    int pageIndex=0; 
+%>
+
+<%  
+    rowNumber=list.size();
+    if (rowNumber%rowsPerPage !=0)
+         pageNumber=rowNumber/rowsPerPage + 1;
+    else pageNumber=rowNumber/rowsPerPage;    
+
+//這一頁是從第幾筆到第幾筆
+    pageIndexArray=new int[pageNumber]; //設定這個Array的長度是總頁數
+    for (int i=1 ; i<=pageIndexArray.length ; i++)	//跑迴圈，i可能除了index外還相當於頁數
+         pageIndexArray[i-1]=i*rowsPerPage-rowsPerPage;	//總頁數陣列[第幾頁的index] = (頁數*每頁的筆數)-每頁的筆數 => 用來塞每一頁的資料起始值
+         //i-1 = 從0開始(陣列的index) (頁數*每頁的筆數)-每頁的筆數
+%>
+
+<%  try {
+       whichPage = Integer.parseInt(request.getParameter("whichPage"));
+       pageIndex=pageIndexArray[whichPage-1];  //pageIndex = 是起始資料為第幾筆
+    } catch (NumberFormatException e) { //第一次執行的時候
+       whichPage=1;
+       pageIndex=0;
+    } catch (ArrayIndexOutOfBoundsException e) { //總頁數之外的錯誤頁數
+         if (pageNumber>0){
+              whichPage=pageNumber;
+              pageIndex=pageIndexArray[pageNumber-1];
+         }
+    } 
+%>
+
+<%if (pageNumber>0){%>
+  <b><font color=red>第<%=whichPage%>/<%=pageNumber%>頁</font></b>
+<%}%>
+
+<b>●符 合 查 詢 條 件 如 下 所 示: 共<font color=red><%=rowNumber%></font>筆</b>
