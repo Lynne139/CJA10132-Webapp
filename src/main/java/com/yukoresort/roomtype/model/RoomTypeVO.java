@@ -7,7 +7,7 @@ public class RoomTypeVO implements Serializable{
 	private String roomTypeName;
 	private Integer roomTypeAmount;
 	private String roomTypeContent;
-	private Boolean roomSaleStatus;
+	private Integer roomSaleStatus;
 	private byte[] roomTypePic;
 	private Integer roomTypePrice;
 	public Integer getRoomTypeId() {
@@ -34,10 +34,10 @@ public class RoomTypeVO implements Serializable{
 	public void setRoomTypeContent(String roomTypeContent) {
 		this.roomTypeContent = roomTypeContent;
 	}
-	public Boolean getRoomSaleStatus() {
+	public Integer getRoomSaleStatus() {
 		return roomSaleStatus;
 	}
-	public void setRoomSaleStatus(Boolean roomSaleStatus) {
+	public void setRoomSaleStatus(Integer roomSaleStatus) {
 		this.roomSaleStatus = roomSaleStatus;
 	}
 	public byte[] getRoomTypePic() {

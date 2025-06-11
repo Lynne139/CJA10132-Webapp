@@ -2,21 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.yukoresort.roomtype.model.*"%>
-<%@ page import="java.util.Base64"%>
+<%@ page import="com.yukoresort.room.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
-RoomTypeService roomTypeSvc = new RoomTypeService();
-List<RoomTypeVO> list = roomTypeSvc.getAll();
+RoomService roomSvc = new RoomService();
+List<RoomVO> list = roomSvc.getAll();
 pageContext.setAttribute("list", list);
 %>
 
 
-
 <html>
 <head>
-<title>所有房型資料 - listAllRoomType.jsp</title>
+<title>所有房間資料 - listAllRoom.jsp</title>
 
 <style>
 table#table-1 {
@@ -62,7 +60,7 @@ th, td {
 	<table id="table-1">
 		<tr>
 			<td>
-				<h3>所有房型資料 - listAllRoomType.jsp</h3>
+				<h3>所有房間資料 - listAllRoom.jsp</h3>
 				<h4>
 					<a href="select_page.jsp"><img src="images/back1.gif"
 						width="100" height="32" border="0">回首頁</a>
@@ -73,60 +71,46 @@ th, td {
 
 	<table>
 		<tr>
+			<th>房間編號</th>
 			<th>房型編號</th>
-			<th>房型名稱</th>
-			<th>房型數量</th>
-			<th>房型介紹</th>
-			<th>房型狀態</th>
-			<th>房型照片</th>
-			<th>房型金額</th>
+			<th>住客姓名</th>
+			<th>上下架狀態</th>
+			<th>房間狀態</th>
 			<th>修改</th>
 			<th>刪除</th>
 		</tr>
 		<%@ include file="page1.file"%>
-		<c:forEach var="roomTypeVO" items="${list}" begin="<%=pageIndex%>"
+		<c:forEach var="roomVO" items="${list}" begin="<%=pageIndex%>"
 			end="<%=pageIndex+rowsPerPage-1%>">
 
-			<%
-			RoomTypeVO currentRoomType = (RoomTypeVO) pageContext.getAttribute("roomTypeVO");
-			String base64Image = "";
-			if (currentRoomType != null && currentRoomType.getRoomTypePic() != null) {
-				byte[] imageBytes = currentRoomType.getRoomTypePic();
-				base64Image = Base64.getEncoder().encodeToString(imageBytes);
-			}
-			pageContext.setAttribute("base64Image", base64Image);
-			%>
-
 			<tr>
-				<td>${roomTypeVO.roomTypeId}</td>
-				<td>${roomTypeVO.roomTypeName}</td>
-				<td>${roomTypeVO.roomTypeAmount}</td>
-				<td>${roomTypeVO.roomTypeContent}</td>
-				<%-- 				<td>${roomTypeVO.roomSaleStatus}</td> --%>
+				<td>${roomVO.roomId}</td>
+				<td>${roomVO.roomTypeId}</td>
+				<td>${roomVO.roomGuestName}</td>
 				<td><c:choose>
-						<c:when test="${roomTypeVO.roomSaleStatus == 1}">上架</c:when>
+						<c:when test="${roomVO.roomSaleStatus == 1}">上架</c:when>
 						<c:otherwise>下架</c:otherwise>
 					</c:choose></td>
-				<td><c:if test="${not empty base64Image}">
-						<img src="data:image/jpeg;base64,${base64Image}"
-							style="max-width: 200px;" />
-					</c:if></td>
-				<td>${roomTypeVO.roomTypePrice}</td>
+				<td><c:choose>
+						<c:when test="${roomVO.roomStatus == 0}">未入住</c:when>
+						<c:when test="${roomVO.roomStatus == 1}">已入住</c:when>
+						<c:otherwise>待清潔</c:otherwise>
+					</c:choose></td>
 				<td>
 					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/roomType/roomType.do"
+						ACTION="<%=request.getContextPath()%>/room/room.do"
 						style="margin-bottom: 0px;">
 						<input type="submit" value="修改"> <input type="hidden"
-							name="roomTypeId" value="${roomTypeVO.roomTypeId}"> <input
+							name="roomId" value="${roomVO.roomId}"> <input
 							type="hidden" name="action" value="getOne_For_Update">
 					</FORM>
 				</td>
 				<td>
 					<FORM METHOD="post"
-						ACTION="<%=request.getContextPath()%>/roomType/roomType.do"
+						ACTION="<%=request.getContextPath()%>/room/room.do"
 						style="margin-bottom: 0px;">
 						<input type="submit" value="刪除"> <input type="hidden"
-							name="roomTypeId" value="${roomTypeVO.roomTypeId}"> <input
+							name="roomId" value="${roomVO.roomId}"> <input
 							type="hidden" name="action" value="delete">
 					</FORM>
 				</td>

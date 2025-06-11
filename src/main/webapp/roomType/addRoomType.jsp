@@ -65,7 +65,7 @@ RoomTypeVO roomTypeVO = (RoomTypeVO) request.getAttribute("roomTypeVO");
 	</ul>
 </c:if>
 
-<FORM METHOD="post" ACTION="roomType.do" name="form1">
+<FORM METHOD="post" ACTION="roomType.do" name="form1" enctype="multipart/form-data">
 <table>
 	
 	
@@ -85,11 +85,18 @@ RoomTypeVO roomTypeVO = (RoomTypeVO) request.getAttribute("roomTypeVO");
 	</tr>
 	<tr>
 		<td>房型狀態:</td>
-		<td><input type="TEXT" name="roomSaleStatus"   value="<%= (roomTypeVO==null)? "1" : roomTypeVO.getRoomSaleStatus()%>" size="45"/></td>
+		<td><input type="radio" name="roomSaleStatus"   value="1" <%= (roomTypeVO == null || roomTypeVO.getRoomSaleStatus() == 1)? "checked" : ""%> size="45"/>上架
+			<input type="radio" name="roomSaleStatus"   value="0" <%= (roomTypeVO != null && roomTypeVO.getRoomSaleStatus() == 0)? "checked" : ""%> size="45"/>下架</td>
 	</tr>
 	<tr>
 		<td>房型金額:</td>
 		<td><input type="TEXT" name="roomTypePrice"  value="<%= (roomTypeVO==null)? "30000" : roomTypeVO.getRoomTypePrice()%>" size="45"/></td>
+	</tr>
+	<tr>
+		<td>房型照片:</td>
+		<td><input type="file" name="roomTypePic" id="roomTypePicInput" accept="image/*">
+		<br>
+		<img id="previewImg" src="data:image/*;base64,${base64Image}" style="max-width: 200px; display: none;" /></td>
 	</tr>
 
 
@@ -97,6 +104,29 @@ RoomTypeVO roomTypeVO = (RoomTypeVO) request.getAttribute("roomTypeVO");
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
+
+	<script>
+	//抓img標籤
+	var previewImg_el = document.getElementById("previewImg");
+    var preview_img = function (file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.addEventListener("load", function () {
+        	previewImg_el.setAttribute("src", reader.result);
+        	previewImg_el.style.display = "block";
+        });
+    }
+    //input標籤有變更
+    var roomTypePicInput_el = document.getElementById("roomTypePicInput");
+    roomTypePicInput_el.addEventListener("change", function (e) {
+        if (this.files.length > 0) {
+            preview_img(this.files[0]);
+        } else {//點選取消回原介面
+        	previewImg_el.setAttribute("src", "");
+        	previewImg_el.style.display = "none";
+        }
+    });
+	</script>
 
 </body>
 </html>

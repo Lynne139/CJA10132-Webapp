@@ -6,23 +6,24 @@ public class RoomTypeService {
 	private RoomTypeDAO_interface dao;
 	
 	public RoomTypeService() {
-		dao = new RoomTypeJDBCDAO();
+		dao = new RoomTypeJNDIDAO();
 	}
 	
-	public RoomTypeVO addRoomType(String roomTypeName, Integer roomTypeAmount, String roomTypeContent, Boolean roomSaleStatus, Integer roomTypePrice) {
+	public RoomTypeVO addRoomType(String roomTypeName, Integer roomTypeAmount, String roomTypeContent, Integer roomSaleStatus, byte[] roomTypePic, Integer roomTypePrice) {
 		RoomTypeVO roomTypeVO = new RoomTypeVO();
 		
 		roomTypeVO.setRoomTypeName(roomTypeName);
 		roomTypeVO.setRoomTypeAmount(roomTypeAmount);
 		roomTypeVO.setRoomTypeContent(roomTypeContent);
 		roomTypeVO.setRoomSaleStatus(roomSaleStatus);
+		roomTypeVO.setRoomTypePic(roomTypePic);
 		roomTypeVO.setRoomTypePrice(roomTypePrice);
 		dao.insert(roomTypeVO);
 		
 		return roomTypeVO;
 	}
 	
-	public RoomTypeVO updateRoomType(Integer roomTypeId, String roomTypeName, Integer roomTypeAmount, String roomTypeContent, Boolean roomSaleStatus, Integer roomTypePrice) {
+	public RoomTypeVO updateRoomType(Integer roomTypeId, String roomTypeName, Integer roomTypeAmount, String roomTypeContent, Integer roomSaleStatus, byte[] roomTypePic, Integer roomTypePrice) {
 		RoomTypeVO roomTypeVO = new RoomTypeVO();
 		
 		roomTypeVO.setRoomTypeId(roomTypeId);
@@ -30,6 +31,7 @@ public class RoomTypeService {
 		roomTypeVO.setRoomTypeAmount(roomTypeAmount);
 		roomTypeVO.setRoomTypeContent(roomTypeContent);
 		roomTypeVO.setRoomSaleStatus(roomSaleStatus);
+		roomTypeVO.setRoomTypePic(roomTypePic);
 		roomTypeVO.setRoomTypePrice(roomTypePrice);
 		dao.update(roomTypeVO);
 		

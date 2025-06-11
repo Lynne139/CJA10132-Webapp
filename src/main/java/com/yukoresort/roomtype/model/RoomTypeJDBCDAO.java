@@ -14,13 +14,13 @@ public class RoomTypeJDBCDAO implements RoomTypeDAO_interface{
 	String userid = "root";
 	String password = "";
 	
-	//ID和圖片可以先不新增嗎?
+	
 	private static final String INSERT_STMT =
-		"INSERT INTO room_type (room_type_name, room_type_amount, room_type_content, room_sale_status, room_type_price) VALUES (?,?,?,?,?)";
+		"INSERT INTO room_type (room_type_name, room_type_amount, room_type_content, room_sale_status, room_type_pic, room_type_price) VALUES (?,?,?,?,?,?)";
 	private static final String UPDATE = 
-			"UPDATE room_type SET room_type_name=?, room_type_amount=?, room_type_content=?, room_sale_status=?, room_type_price=? WHERE room_type_id = ?";
+			"UPDATE room_type SET room_type_name=?, room_type_amount=?, room_type_content=?, room_sale_status=?, room_type_pic=?, room_type_price=? WHERE room_type_id = ?";
 	private static final String GET_ONE_STMT =
-			"SELECT room_type_id, room_type_name, room_type_amount, room_type_content, room_sale_status, room_type_price FROM room_type WHERE room_type_id = ?";
+			"SELECT room_type_id, room_type_name, room_type_amount, room_type_content, room_sale_status,room_type_pic, room_type_price FROM room_type WHERE room_type_id = ?";
 	private static final String  GET_ALL_STMT =
 		"SELECT * FROM room_type ORDER BY room_type_id";
 	private static final String DELETE = 
@@ -43,8 +43,9 @@ public class RoomTypeJDBCDAO implements RoomTypeDAO_interface{
 			pstmt.setString(1, roomTypeVO.getRoomTypeName());
 			pstmt.setInt(2, roomTypeVO.getRoomTypeAmount());
 			pstmt.setString(3, roomTypeVO.getRoomTypeContent());
-			pstmt.setBoolean(4, roomTypeVO.getRoomSaleStatus());
-			pstmt.setInt(5, roomTypeVO.getRoomTypePrice());//索引值是依照表格嗎?
+			pstmt.setInt(4, roomTypeVO.getRoomSaleStatus());
+			pstmt.setBytes(5, roomTypeVO.getRoomTypePic());
+			pstmt.setInt(6, roomTypeVO.getRoomTypePrice());
 			
 			pstmt.executeUpdate();
 			
@@ -84,9 +85,10 @@ public class RoomTypeJDBCDAO implements RoomTypeDAO_interface{
 			pstmt.setString(1, roomTypeVO.getRoomTypeName());
 			pstmt.setInt(2, roomTypeVO.getRoomTypeAmount());
 			pstmt.setString(3, roomTypeVO.getRoomTypeContent());
-			pstmt.setBoolean(4, roomTypeVO.getRoomSaleStatus());
-			pstmt.setInt(5, roomTypeVO.getRoomTypePrice());
-			pstmt.setInt(6, roomTypeVO.getRoomTypeId());
+			pstmt.setInt(4, roomTypeVO.getRoomSaleStatus());
+			pstmt.setBytes(5, roomTypeVO.getRoomTypePic());
+			pstmt.setInt(6, roomTypeVO.getRoomTypePrice());
+			pstmt.setInt(7, roomTypeVO.getRoomTypeId());
 			
 			pstmt.executeUpdate();
 		
@@ -134,7 +136,8 @@ public class RoomTypeJDBCDAO implements RoomTypeDAO_interface{
 				roomTypeVO.setRoomTypeName(rs.getString("room_type_name"));
 				roomTypeVO.setRoomTypeAmount(rs.getInt("room_type_amount"));
 				roomTypeVO.setRoomTypeContent(rs.getString("room_type_content"));
-				roomTypeVO.setRoomSaleStatus(rs.getBoolean("room_sale_status"));
+				roomTypeVO.setRoomSaleStatus(rs.getInt("room_sale_status"));
+				roomTypeVO.setRoomTypePic(rs.getBytes("room_type_pic"));
 				roomTypeVO.setRoomTypePrice(rs.getInt("room_type_price"));	
 			}
 		}catch(ClassNotFoundException e) {
@@ -187,7 +190,8 @@ public class RoomTypeJDBCDAO implements RoomTypeDAO_interface{
 				roomTypeVO.setRoomTypeName(rs.getString("room_type_name"));
 				roomTypeVO.setRoomTypeAmount(rs.getInt("room_type_amount"));
 				roomTypeVO.setRoomTypeContent(rs.getString("room_type_content"));
-				roomTypeVO.setRoomSaleStatus(rs.getBoolean("room_sale_status"));
+				roomTypeVO.setRoomSaleStatus(rs.getInt("room_sale_status"));
+				roomTypeVO.setRoomTypePic(rs.getBytes("room_type_pic"));
 				roomTypeVO.setRoomTypePrice(rs.getInt("room_type_price"));
 				roomTypes.add(roomTypeVO);
 			}

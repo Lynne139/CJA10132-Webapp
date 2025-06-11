@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
-  <display-name>CJA10132-Webapp</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
-  
-  <servlet>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+	id="WebApp_ID" version="6.0">
+	<display-name>CJA10132-Webapp</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
 		<servlet-name>RoomTypeServlet</servlet-name>
 		<servlet-class>com.yukoresort.roomtype.controller.RoomTypeServlet</servlet-class>
+		<multipart-config>
+			<max-file-size>1048576</max-file-size>
+			<max-request-size>2097152</max-request-size>
+			<file-size-threshold>0</file-size-threshold>
+		</multipart-config>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RoomTypeServlet</servlet-name>
 		<url-pattern>/roomType/roomType.do</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RoomServlet</servlet-name>
+		<servlet-class>com.yukoresort.room.controller.RoomServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomServlet</servlet-name>
+		<url-pattern>/room/room.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RoomTypeScheduleServlet</servlet-name>
+		<servlet-class>com.yukoresort.roomtypeschedule.controller.RoomTypeScheduleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RoomTypeScheduleServlet</servlet-name>
+		<url-pattern>/roomTypeSchedule/roomTS.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RoomTypeServletUpload</servlet-name>
+		<servlet-class>com.yukoresort.roomtype.controller.RoomTypeServlet</servlet-class>
+		
+	</servlet>
+
 </web-app>
